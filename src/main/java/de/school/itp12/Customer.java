@@ -33,6 +33,8 @@ public class Customer implements ICustomer{
             throw new RuntimeException("Fehler bei der DB-Verbindung: " + e.getMessage(), e);
         }
     }
+    public void insertCustomer(Customer customer){
+    }
 
 
 
