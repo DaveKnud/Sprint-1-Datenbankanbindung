@@ -3,13 +3,13 @@ package de.school.itp12;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Reading {
+public class Reading implements IReading{
     UUID id;
     String comment;
     LocalDate dateOfReading;
     Double meterCount;
     String meterId;
-    String customer;
+    Customer customer;
     boolean substitute;
     IReading.KindOfMeter kindOfMeter;
 
@@ -28,6 +28,11 @@ public class Reading {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public void setCustomer(ICustomer customer) {
+
     }
 
     public LocalDate getDateOfReading() {
@@ -50,15 +55,25 @@ public class Reading {
         return meterId;
     }
 
+    @Override
+    public Boolean getSubstitute() {
+        return null;
+    }
+
     public void setMeterId(String meterId) {
         this.meterId = meterId;
     }
 
-    public String getCustomer() {
+    @Override
+    public void setSubstitute(Boolean substitute) {
+
+    }
+
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(String customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
