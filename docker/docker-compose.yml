@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  mariadb:
+    image: mariadb:10.11
+    environment:
+      - MARIADB_DATABASE=hausverwaltung
+      - MARIADB_USER=app
+      - MARIADB_PASSWORD=app_pw
+      - MARIADB_ROOT_PASSWORD=root_pw
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "127.0.0.1", "-u", "root", "root"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./data:/import:ro

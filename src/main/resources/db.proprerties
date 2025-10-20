@@ -1,3 +1,3 @@
 Schueler.db.url=jdbc:mariadb://localhost:3306/hausverwaltung
-Schueler.db.user=app
-Schueler.db.pw=app_pw
+Schueler.db.user=admin
+Schueler.db.pw=admin

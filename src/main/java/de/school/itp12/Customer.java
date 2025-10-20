@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Customer {
-    UUID id;
-    String firstName;
-    String lastName;
-    ICustomer.Gender gender;
-    LocalDate birthDate;
+    private UUID id;
+    private String firstName;
+    private String lastName;
+    private ICustomer.Gender gender;
+    private LocalDate birthDate;
 
     public UUID getId() {
         return id;
