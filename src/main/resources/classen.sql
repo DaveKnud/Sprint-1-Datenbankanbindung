@@ -13,7 +13,7 @@ CREATE TABLE Customer (
     ID INT PRIMARY KEY AUTO_INCREMENT,
     FirstName VARCHAR(100) NOT NULL,
     LastName VARCHAR(100) NOT NULL,
-    GenderID INT,
+    Gender ENUM ,
     BirthDate DATE,
     FOREIGN KEY (GenderID) REFERENCES Gender(GenderID)
 );
