@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.Properties;
 import java.util.UUID;
 
-public class Customer {
+public class Customer implements ICustomer {
     UUID id;
     String firstName;
     String lastName;
