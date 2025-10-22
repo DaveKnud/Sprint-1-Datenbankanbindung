@@ -40,6 +40,12 @@ public class CustomerProvider extends MariaDbConnection {
 
         Connection conn = getConnection();
 
+        try(Statement st=conn.createStatement()) {
+            st.executeUpdate("UPDATE FROM hausverwaltung.reading SET customer_id= NULL WHERE customer_id="+id.toString());
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         Customer result = null;
         try (Statement stmt = conn.createStatement()) {
             String selectSql = "SELECT * FROM hausverwaltung.customer WHERE id = " + id.toString();
