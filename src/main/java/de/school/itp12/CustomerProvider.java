@@ -1,5 +1,7 @@
 package de.school.itp12;
 
+import db.MariaDbConnection;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -8,32 +10,17 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.UUID;
 
-public class CustomerProvider {
+public class CustomerProvider extends MariaDbConnection {
 
-    public static Connection getConnection() {
-        Properties props = new Properties();
-        try (FileInputStream fis = new FileInputStream("src/main/resources/db.properties")) {
-            props.load(fis);
 
-            String url = props.getProperty("Schueler.db.url");
-            String user = props.getProperty("Schueler.db.user");
-            String password = props.getProperty("Schueler.db.pw");
+    public void update(UUID id, Customer customer) {
 
-            return DriverManager.getConnection(url, user, password);
 
-        } catch (IOException e) {
-            throw new RuntimeException("Fehler beim Laden der Property-Datei: " + e.getMessage(), e);
-        } catch (SQLException e) {
-            throw new RuntimeException("Fehler bei der DB-Verbindung: " + e.getMessage(), e);
-        }
-    }
-
-    public void update(UUID id,Customer customer) {
 
         Connection conn = getConnection();
-        String sql = "UPDATE hausverwaltung.customer\n" +
-                "SET FirstName=?, LastName=?, Gender=?, BirthDate=?\n" +
-                "WHERE ID=?;";
+        String sql = "UPDATE hausverwaltung.customer " +
+                "SET first_name=?, last_name=?, gender=?, birth_date=? " +
+                "WHERE id=?;";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
@@ -48,22 +35,23 @@ public class CustomerProvider {
             throw new RuntimeException(e);
         }
     }
+
     public static Customer read(UUID id) {
 
         Connection conn = getConnection();
 
         Customer result = null;
         try (Statement stmt = conn.createStatement()) {
-            String selectSql = "SELECT * FROM hausverwaltung.customer WHERE ID = " + id.toString();
+            String selectSql = "SELECT * FROM hausverwaltung.customer WHERE id = " + id.toString();
             try (ResultSet rs = stmt.executeQuery(selectSql)) {
                 if (rs.next()) {
 
 
-                    String firstName = rs.getString("FirstName");
-                    String lastName = rs.getString("LastName");
-                    ICustomer.Gender gender = ICustomer.Gender.valueOf(rs.getString("Gender"));
-                    LocalDate birthDate = (rs.getDate("BirthDate").toLocalDate());
-                    result=new Customer(id,firstName,lastName,gender,birthDate);
+                    String firstName = rs.getString("first_name");
+                    String lastName = rs.getString("last_name");
+                    ICustomer.Gender gender = ICustomer.Gender.valueOf(rs.getString("gender"));
+                    LocalDate birthDate = (rs.getDate("birth_date").toLocalDate());
+                    result = new Customer(id, firstName, lastName, gender, birthDate);
 
 
                 }
@@ -74,7 +62,8 @@ public class CustomerProvider {
         return result;
 
     }
-    public static ArrayList<Customer> readAll() {
+
+    public ArrayList<Customer> readAll() {
 
         Connection conn = getConnection();
 
@@ -83,7 +72,7 @@ public class CustomerProvider {
             String selectSql = "SELECT id FROM hausverwaltung.customer";
             try (ResultSet rs = stmt.executeQuery(selectSql)) {
                 while (rs.next()) {
-                    UUID id = UUID.fromString(rs.getString("ID"));
+                    UUID id = UUID.fromString(rs.getString("id"));
                     Customer customer = read(id);
                     result.add(customer);
                 }
@@ -94,7 +83,7 @@ public class CustomerProvider {
         return result;
     }
 
-    public static void delete(UUID id) {
+    public void delete(UUID id) {
 
         Connection conn = getConnection();
 
@@ -108,21 +97,22 @@ public class CustomerProvider {
         }
 
     }
-    public  static UUID insert(Customer customer) {
+
+    public UUID insert(Customer customer) {
 
         Connection conn = getConnection();
-        String sql = "INSERT INTO hausverwaltung.customer (FirstName, LastName, Gender, BirthDate) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO hausverwaltung.customer (first_name, last_name, gender, birth_date) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, customer.getFirstName());
             pstmt.setString(2, customer.getLastName());
             pstmt.setDate(3, Date.valueOf(customer.birthDate));
-            pstmt.setString(4,customer.getGender().name());
+            pstmt.setString(4, customer.getGender().name());
 
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
-                UUID newId =UUID.fromString(rs.getString(1)) ;
+                UUID newId = UUID.fromString(rs.getString(1));
                 return newId;
             }
         } catch (SQLException e) {

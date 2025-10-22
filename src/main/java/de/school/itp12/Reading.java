@@ -3,7 +3,7 @@ package de.school.itp12;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Reading implements IReading{
+public class Reading implements IReading {
     UUID id;
     String comment;
     LocalDate dateOfReading;
@@ -13,6 +13,24 @@ public class Reading implements IReading{
     boolean substitute;
     IReading.KindOfMeter kindOfMeter;
 
+    public Reading(
+            UUID id,
+            String comment,
+            LocalDate dateOfReading,
+            Double meterCount,
+            String meterId,
+            Customer customer,
+            boolean substitute,
+            KindOfMeter kindOfMeter) {
+        this.id = id;
+        this.comment = comment;
+        this.dateOfReading = dateOfReading;
+        this.meterCount = meterCount;
+        this.meterId = meterId;
+        this.customer = customer;
+        this.substitute = substitute;
+        this.kindOfMeter = kindOfMeter;
+    }
 
     public UUID getId() {
         return id;
@@ -66,6 +84,7 @@ public class Reading implements IReading{
 
     @Override
     public void setSubstitute(Boolean substitute) {
+        this.substitute = substitute;
 
     }
 
@@ -93,7 +112,7 @@ public class Reading implements IReading{
         this.kindOfMeter = kindOfMeter;
     }
 
-    public String printDateOfReading(){
+    public String printDateOfReading() {
         return this.dateOfReading.toString();
     }
 }

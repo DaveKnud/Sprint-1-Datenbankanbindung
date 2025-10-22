@@ -5,7 +5,7 @@ import java.util.Properties;
 
 public class MariaDbConnection implements IDatabaseConnection {
 
-    private Connection connection;
+    private static Connection connection;
 
     @Override
     public IDatabaseConnection openConnection(Properties props) {
@@ -85,7 +85,7 @@ public class MariaDbConnection implements IDatabaseConnection {
         }
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         return connection;
     }
 }
