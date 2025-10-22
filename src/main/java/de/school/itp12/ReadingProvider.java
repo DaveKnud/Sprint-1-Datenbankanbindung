@@ -34,6 +34,4 @@ public class ReadingProvider extends MariaDbConnection {
             throw new RuntimeException(e);
         }
     }
-
-
 }

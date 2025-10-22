@@ -66,7 +66,6 @@ public class Reading implements IReading{
 
     @Override
     public void setSubstitute(Boolean substitute) {
-
     }
 
     public Customer getCustomer() {
