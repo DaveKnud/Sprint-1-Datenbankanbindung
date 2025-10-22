@@ -132,4 +132,6 @@ public class CustomerProvider {
     }
 
 
+    public Object findById(UUID id) {
+    }
 }
