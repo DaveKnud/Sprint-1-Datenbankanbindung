@@ -36,7 +36,7 @@ public class ReadingProvider extends  MariaDbConnection {
             throw new RuntimeException(e);
         }
     }
-    public  Reading read(UUID id) {
+    public static Reading read(UUID id) {
 
         Connection conn = getConnection();
 
